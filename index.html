@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERAWORK - Portal de Atendimento Global</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: #0b0f19;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.15) 0%, transparent 35%),
+                radial-gradient(circle at 100% 100%, rgba(124, 58, 237, 0.12) 0%, transparent 40%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 24px;
+        }
+
+        .form-container {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 48px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .brand-logo {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.4em;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .brand-logo span {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e5e7eb;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            font-size: 15px;
+            color: #ffffff;
+            outline: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        select {
+            appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        select option {
+            background-color: #111827;
+            color: #ffffff;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #4b5563;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #3b82f6;
+            background: rgba(31, 41, 55, 0.8);
+            box-shadow: 0 0 0 1px #3b82f6, 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        textarea {
+            resize: none;
+            min-height: 110px;
+            line-height: 1.6;
+        }
+
+        .urgency-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .urgency-option {
+            position: relative;
+        }
+
+        .urgency-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .urgency-label {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            background: rgba(31, 41, 55, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            cursor: pointer;
+            color: #9ca3af;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .urgency-option input[type="radio"]:checked + .urgency-label {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: #3b82f6;
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            transition: all 0.2s ease;
+            margin-top: 12px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            background: #1f2937;
+            color: #6b7280;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* TELA DE SUCESSO PERSONALIZADA TERAWORK */
+        .success-message {
+            display: none; /* Escondida por padrão */
+            text-align: center;
+            padding: 40px 0;
+            animation: fadeIn 0.5s ease forward;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 24px auto;
+            color: #10b981;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .success-message h3 {
+            color: #ffffff;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .success-message p {
+            color: #9ca3af;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 11px;
+            color: #4b5563;
+            letter-spacing: 0.02em;
+        }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .form-container { padding: 32px 20px; }
+            .urgency-container { grid-template-columns: 1fr; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="brand-header">
+        <div class="brand-logo">TERAWORK<span>.</span></div>
+        <div id="header-text">
+            <h2>Central de Atendimentos</h2>
+            <p class="subtitle">Reporte falhas, envie sugestões ou solicite suporte técnico.</p>
+        </div>
+    </div>
+    
+    <!-- Formulário ganha um ID para o JavaScript controlar -->
+    <form id="terawork-form" action="https://formspree.io/f/xkoaggvk" method="POST">
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nome">Nome / GamerTag</label>
+                <input type="text" id="nome" name="name" required placeholder="Ex: Miguel Neves">
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail Vinculado</label>
+                <input type="email" id="email" name="_replyto" required placeholder="seu@email.com">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="tipo">Tipo de Solicitação</label>
+                <select id="tipo" name="ticket_type" required>
+                    <option value="" disabled selected>Selecione uma opção...</option>
+                    <option value="bug">Reportar Bug / Falha de Sistema</option>
+                    <option value="suporte">Suporte Técnico Interno</option>
+                    <option value="financeiro">Questões Financeiras / Faturamento</option>
+                    <option value="parceria">Propostas e Parcerias Comerciais</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="data_evento">Data do Ocorrido</label>
+                <input type="date" id="data_evento" name="incident_date" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Nível de Prioridade</label>
+            <div class="urgency-container">
+                <div class="urgency-option">
+                    <input type="radio" id="baixa" name="priority" value="Baixa" checked>
+                    <label for="baixa" class="urgency-label">Baixa</label>
+                </div>
+                <div class="urgency-option">
+                    <input type="radio" id="media" name="priority" value="Média">
+                    <label for="media" class="urgency-label">Média</label>
+                </div>
+                <div class="urgency-option">
+                    <input type="radio" id="alta" name="priority" value="Alta">
+                    <label for="alta" class="urgency-label">Alta</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="mensagem">Descrição Detalhada do Caso</label>
+            <textarea id="mensagem" name="message" required placeholder="Por favor, forneça o máximo de detalhes possível sobre o seu problema ou dúvida..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="sugestao">Ideias ou Sugestões de Melhoria (Opcional)</label>
+            <textarea id="sugestao" name="suggestions" placeholder="Tem alguma sugestão para melhorar nossa plataforma ou ferramentas? Escreva aqui..."></textarea>
+        </div>
+
+        <button type="submit" id="submit-btn">Enviar Ticket para a TERAWORK</button>
+    </form>
+
+    <!-- NOVA ÁREA DE SUCESSO: Totalmente sem marcas de terceiros -->
+    <div id="success-box" class="success-message">
+        <div class="success-icon">✓</div>
+        <h3>Ticket Transmitido com Sucesso</h3>
+        <p>Sua solicitação foi recebida pela nossa central de inteligência e suporte. Um analista da <strong>TERAWORK</strong> entrará em contato através do e-mail fornecido em até 24 horas úteis.</p>
+    </div>
+
+    <div class="form-footer">
+        © 2026 TERAWORK Corporation. Proteção de dados assegurada pelas diretrizes corporativas de segurança.
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('terawork-form');
+    const successBox = document.getElementById('success-box');
+    const headerText = document.getElementById('header-text');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Impede o navegador de atualizar a página e ir pro Formspree
+        
+        submitBtn.disabled = true;
+        submitBtn.innerText = "TRANSMITINDO DADOS...";
+
+        const data = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // Esconde o formulário e o texto superior
+                form.style.display = 'none';
+                headerText.style.display = 'none';
+                
+                // Mostra a tela de sucesso da TERAWORK
+                successBox.style.display = 'block';
+            } else {
+                alert('Ocorreu um erro ao processar o envio. Por favor, tente novamente.');
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Enviar Ticket para a TERAWORK";
+            }
+        } catch (error) {
+            alert('Erro de conexão com o servidor de banco de dados.');
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Enviar Ticket para a TERAWORK";
+        }
+    });
+</script>
+
+</body>
+</html>
